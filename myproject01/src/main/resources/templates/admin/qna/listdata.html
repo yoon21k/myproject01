@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<p th:if="${#lists.isEmpty(list)}">
+	게시글이 존재하지 않습니다.
+</p>
+
+<dl th:if="${!#lists.isEmpty(list)}" th:each="dto : ${list}">
+	<dt>
+		<span class="bno" th:text="${dto.no}">no</span>
+		<span th:text="${dto.division}">구분</span>
+		<span>
+			<input type="text" class="subject" th:value="${dto.subject}" disabled="disabled">
+		</span>
+	</dt>
+	<dd>
+		<input type="text" class="content" th:value="${dto.content}" disabled="disabled">
+	
+	
+		<button class="btn-edit">수정</button>
+		
+		<span class="btn-edit-done" style="display: none;">
+			<button class="btn-edit-save">저장</button>
+			<button class="btn-edit-cancel">취소</button>
+		</span>
+		
+		<button class="btn-delete">삭제</button>
+		<input type="hidden" class="no" th:value="${dto.no}">
+		
+		<hr>
+		
+		<div class="qna-reply">
+			<input class="reply" type="text">
+			<button class="btn-reply-done">작성</button>
+			<input class="writer" type="hidden" name="writer" th:value="${#authentication.principal.name}">
+		</div>
+		<div class="reply-list">
+			<!-- 댓글 -->
+		</div>
+	</dd>
+</dl>
+
+
+
+<div id="pagging" class="flex" th:if="${!#lists.isEmpty(list)}">
+	<!-- Create a sequence (array) of integer numbers going -->
+ 	<!-- ${#numbers.sequence(from,to)} from x to y -->
+	<button th:each="pno : ${#numbers.sequence(1, to)}">   
+		[[${pno}]]
+	</button>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		
+		$("#result dl dd").hide();
+		$("#result dl dt").click(function(){
+			
+			var target = $(this).next();
+			$("#result dl dd").not(target).slideUp();
+			//$(this).next().not(target).slideUp();
+			$(this).next().slideToggle(function(){
+				var no=$(this).find(".no").val();
+				$.ajax({
+					url: "/admin/qna/"+no+"/reply",
+					success: function(result){
+						$(".reply-list").html(result);
+					}
+				});
+			});
+		});
+		
+		// 수정 버튼 클릭
+		$(".btn-edit").click(function(){
+			$(this).hide();
+			$(this).next().show();   // class 이름으로 접근하면 전체데이터에 적용됨 -> 상대경로로 접근
+			// 부모 중 dl 아래 input
+			$(this).parents("dl").find("input:disabled").removeAttr("disabled");
+		});
+		
+		// 삭제 버튼 클릭
+		$(".btn-delete").click(function(){
+			var _no=$(this).next().val();   // 삭제 버튼 다음 input 요소의 value값 읽기
+			
+			$.ajax({
+				url: "/admin/qna/"+_no,
+				type: "delete",
+				success:function(result){
+					getQnaList(div);
+				}
+			});
+		});
+		
+		// 저장 버튼 클릭
+		$(".btn-edit-save").click(function(){
+			// 수정할 subject, content 가져오기 -> pk값으로 수정할 대상 구분 
+			// 상대경로로 찾아가기
+			var subject=$(this).parents("dl").find(".subject").val().trim();
+			var content=$(this).parents("dl").find(".content").val().trim();
+			var no=$(this).parents("dl").find(".no").val();
+			
+			$.ajax({
+				url: "/admin/qna/"+no,
+				data: {"subject":subject, "content":content},   // key(parameter name값 "") : value
+				type: "put",
+				success: function(){
+					// pageNo=1;   // 수정 후 첫페이지로 가려면
+					getQnaList(div);
+				}
+			});
+			
+		});
+		
+		// 취소 버튼 클릭
+		$(".btn-edit-cancel").click(function(){
+			$(this).parent().hide();
+			// $(this).parent().prev().show();
+			$(this).parents("dd").find(".btn-edit").show();
+			$(this).parents("dl").find("input[type=text]").attr("disabled", true);
+		});
+		
+		// 게시글에 댓글 작성
+		$(".btn-reply-done").click(function(){
+			var reply=$(this).parents("dd").find(".reply").val();
+			var writer=$(this).parents("dd").find(".writer").val();
+			var no=$(this).parents("dd").find(".no").val();
+			
+			$.ajax({
+				url: "/admin/qna/"+no+"/reply",
+				type: "post",
+				data: {"reply" : reply, "writer" : writer},
+				success: function(){
+					location.reload();
+				}
+			});
+		});
+		
+		
+		// 최초 페이지 로딩 시가 아니라(태그가 존재하지않음) 
+		// result가 html로 가져와지고 나서 = listdata가 로딩
+		// #pagging 태그가 불러와짐
+		$("#pagging button").click(function(){   
+			pageNo = $(this).text();
+			getQnaList(div)
+		});
+	});
+	
+	/*
+	// 댓글 읽어오기
+	function getReply(){
+		$.ajax({
+			url: "/admin/qna/"+no+"/reply",
+			success: function(result){
+				$(".reply-list").html(result);
+			}
+		});
+	}
+	*/
+	
+</script>
+
+</html>
+
+

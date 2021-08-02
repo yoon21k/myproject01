@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<p th:if="${#lists.isEmpty(list)}" style="font-size : 20px;">
+	게시글이 존재하지 않습니다.
+</p>
+
+<dl th:if="${!#lists.isEmpty(list)}" th:each="dto,i : ${list}">
+	<dt class="flex">
+		<!-- <span>[[${(i.count)+(pi.size*(pi.page-1))}]]</span> -->
+		<span>[[${pi.totE-((pi.page-1)*pi.size+i.index)}]]</span>
+		<!-- <span th:text="${dto.division}">구분</span> -->
+		<span class="subject">
+			<a th:href="|/community/qna/${division}/${dto.no}|">
+				<!-- <input class="subject" type="text" th:value="${dto.subject}" disabled="disabled"> -->
+				<span th:text="${dto.subject}" th:value="${dto.subject}"></span>
+			</a>
+		</span>
+		<span class="writer" th:text="${dto.writer}">글쓴이</span>
+		<!-- <span th:text="${dto.createdDate}">작성일</span> -->
+		<span>
+			<span th:unless="${dto.createdDate.toLocalDate().isEqual(today)}">
+				[[${dto.createdDate.toLocalDate()}]]
+			</span>
+			<span th:if="${today eq dto.createdDate.toLocalDate()}">
+				[[${#temporals.format(dto.createdDate, 'HH:mm')}]]
+			</span>
+		</span>
+	</dt>
+	
+</dl>
+
+<div class="board-search">
+	
+	<div class="search-box flex">
+		<input type="text" name="keyword" placeholder="Search">
+		<button><i class="fas fa-search"></i></button>
+	</div>
+	
+	<div class="write" sec:authorize="isAnonymous()">
+		<a href="/log/login">글쓰기</a>
+	</div>
+	<div class="write" sec:authorize="isAuthenticated()">
+		<a href="/community/qna/write">글쓰기</a>
+	</div>
+	
+</div>
+
+
+<div id="pagging" th:if="${!#lists.isEmpty(list)}">
+	<span th:if="${pi.from > 1}">
+		<!-- <a th:href="@{'/community/qna/'+${division}(page=${pi.from-1})}">&lt;</a> -->
+		<button class="btn-prev">&lt;</button>
+	</span>
+	
+	<span class="page-no" th:each="pno : ${#numbers.sequence(pi.from, pi.to)}">
+		<button class="btn-pno">[[${pno}]]</button>
+	</span>
+	
+	<span th:if="${pi.to < pi.tot}">
+		<!-- <a th:href="@{'/community/qna/'+${division}(page=${pi.to+1})}">&gt;</a> -->
+		<button class="btn-next">&gt;</button>
+	</span>
+</div>
+	
+
+<script type="text/javascript">
+	$(function(){
+		
+		$("#pagging .btn-pno").click(function(){
+			
+			pno=parseInt($(this).text());
+			qnaList(div)
+		});
+		
+	});
+	
+	
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+

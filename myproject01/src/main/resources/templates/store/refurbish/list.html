@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	<link rel="stylesheet" href="/css/store/refurbish/list.css">
+</head>
+<body>
+	<th:block th:insert="/common/common::header"></th:block>
+	
+	<main>
+		<h1>REFURBISH STORE</h1>
+		<div class="wrap">
+			<section id="refurbish-store">
+			 	<div class="wrap">
+			 		<div class="main-img"></div>
+			 	</div>
+			</section>
+			
+			<!-- 상품정보 리스트 가져오기-->
+			<script type="text/javascript">
+				$(function(){
+					$.ajax({
+						url: "/store/refurbish",
+						success:function(result){
+							$("#product-list .result").html(result);
+						}
+					});
+				});
+			</script>
+			<section id="product-list">
+				<h1>상품정보 리스트</h1>
+				<div class="wrap">
+					<div class="grid-container result">
+					
+					</div>
+				</div>
+			</section>
+			
+		</div>
+	</main>
+	
+	<th:block th:insert="/common/common::footer"></th:block>
+</body>
+</html>

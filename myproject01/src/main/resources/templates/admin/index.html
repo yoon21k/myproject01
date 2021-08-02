@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	<link rel="stylesheet" href="/css/admin/common.css">
+</head>
+<body>
+	
+
+	<main>
+		<h1>관리자 페이지</h1>
+		<div class="wrap flex">
+		
+			<th:block th:insert="/admin/common::menu"/>
+			
+			<section id="content">
+				<h1>내용</h1>
+				<div class="wrap">
+					<p>관리자 페이지입니다.</p>
+				</div>
+			</section>
+		</div>
+	</main>
+	
+	
+</body>
+</html>

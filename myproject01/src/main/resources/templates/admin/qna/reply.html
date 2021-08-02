@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<ul th:each="qnaReplyResultDto : ${reply}" class="flex">
+	<li th:text="${qnaReplyResultDto.no}" style="width: 50px;">번호</li>
+	<li th:text="${qnaReplyResultDto.reply}" style="width: 300px;">댓글</li>
+	<li class="flex">
+		<p th:text="${qnaReplyResultDto.writer}" style="width: 100px;">작성자</p>
+		<p th:text="${qnaReplyResultDto.createdDate.toLocalDate}" style="width: 100px;">작성일</p>
+	</li>
+</ul>
+
+</html>
+
+

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<ul th:each="reviewReplyResultDto : ${reply}">
+	
+	<li class="reply-writer-date flex">
+		<i class="fas fa-user-circle"></i>
+		<p th:text="${reviewReplyResultDto.writer}">작성자</p>
+		<p th:text="${#temporals.format(reviewReplyResultDto.createdDate, 'yyyy-MM-dd HH:mm:ss')}">작성일</p>
+	</li>
+	<li class="reply-edit-box">
+		<span class="reply-default" th:text="${reviewReplyResultDto.reply}">댓글</span>
+		<textarea class="reply-edit-input" style="display: none">[[${reviewReplyResultDto.reply}]]</textarea>
+		
+		<span class="sessionId" sec:authorize="isAuthenticated()" th:text="${#authentication.principal.name}" style="display: none;"></span>
+		<div sec:authorize="isAuthenticated()" class="reply-btn-box flex">
+			<button class="reply-btn-edit">수정</button>
+			
+			<span class="reply-btn-edit-done" style="display: none;">
+				<button class="reply-btn-edit-save">저장</button>
+				<button class="reply-btn-edit-cancel">취소</button>
+			</span>
+			
+			<button class="reply-btn-delete">삭제</button>
+		</div>
+	</li>
+	<li class="review-reply-no" th:text="${reviewReplyResultDto.no}" style="display: none;">번호</li>
+	
+</ul>
+
+<script type="text/javascript">
+
+	$(function(){
+		
+		$(".reply-btn-edit").click(function(){
+			$(this).hide();
+			$(this).next().show();
+			$(this).parents(".reply-edit-box").find(".reply-default").css("display", "none");
+			$(this).parents(".reply-edit-box").find(".reply-edit-input").css("display", "inline-block");
+		});
+		
+		$(".reply-btn-edit-cancel").click(function(){
+			$(this).parent().hide();
+			$(this).parent().prev().show();
+			$(this).parents(".reply-edit-box").find(".reply-edit-input").css("display", "none");
+			$(this).parents(".reply-edit-box").find(".reply-default").css("display", "inline-block");
+		});
+		
+		$(".reply-btn-delete").click(function(){
+			var no=$(this).parents("ul").find(".review-reply-no").text();
+			
+			$.ajax({
+				url: "/store/refurbish/review/reply/"+no,
+				type: "delete",
+				success: function(){
+					getReviewList();
+				}
+			});
+		});
+		
+		$(".reply-btn-edit-save").click(function(){
+			var reply=$(this).parents("ul").find(".reply-edit-input").val();
+			var no=$(this).parents("ul").find(".review-reply-no").text();
+			
+			$.ajax({
+				url: "/store/refurbish/review/reply/"+no,
+				data: {"reply" : reply},
+				type: "put",
+				success: function(){
+					getReviewList();
+				}
+			});
+			
+		});
+		
+	});
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

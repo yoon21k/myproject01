@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	<link rel="stylesheet" href="/css/admin/common.css">
+	
+	<!-- summernote -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<!-- 서머노트를 위해 추가해야할 부분 -->
+  	<script src="/summernote/summernote-lite.js"></script>
+  	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+  	<link rel="stylesheet" href="/summernote/summernote-lite.css"> 
+  	
+  	<script type="text/javascript">
+  		$(function(){
+  			
+  		//summernote
+  			var toolbar = [
+  			    // 글꼴 설정
+  			    ['fontname', ['fontname']],
+  			    // 글자 크기 설정
+  			    ['fontsize', ['fontsize']],
+  			    // 굵기, 기울임꼴, 밑줄,취소 선, 서식지우기
+  			    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+  			    // 글자색
+  			    ['color', ['forecolor','color']],
+  			    // 표만들기
+  			    ['table', ['table']],
+  			    // 글머리 기호, 번호매기기, 문단정렬
+  			    ['para', ['ul', 'ol', 'paragraph']],
+  			    // 줄간격
+  			    ['height', ['height']],
+  			    // 그림첨부, 링크만들기, 동영상첨부
+  			    ['insert',['picture','link','video']],
+  			    // 코드보기, 확대해서보기, 도움말
+  			    ['view', ['codeview','fullscreen', 'help']]
+  			  ];
+
+  			var setting = {
+  	            height : 300,
+  	            minHeight : null,
+  	            maxHeight : null,
+  	            focus : true,
+  	            lang : 'ko-KR',
+  	            toolbar : toolbar,
+  	            callbacks : { //여기 부분이 이미지를 첨부하는 부분
+	  	            onImageUpload : function(files, editor, welEditable) {
+	  	            	for (var i = files.length - 1; i >= 0; i--) {
+		  	            	uploadSummernoteImageFile(files[i], this);
+	  	            	}
+	  	            }
+  	            }
+  	         };
+  			
+  			$(".summernote").summernote(setting);
+  			
+  			
+  			
+  			// 파일이 선택될때마다(파일의 value가 변경될때마다) 이미지를 업로드
+ 			$("#file-input").change(function(){
+ 				var file=$("#file-input")[0].files[0];
+ 				// console.log(fileInfo);
+ 				var formData=new FormData();
+ 				formData.append("file", file);
+ 				//*
+ 				$.ajax({
+ 					url: "/admin/product/refurbish/temp",
+ 					data: formData,
+ 					type: "post",
+ 					contentType: false,
+ 					processData: false,
+ 					success: function(result){
+ 						if(result==null){
+ 							alert("파일 용량 초과!")
+ 						}else{
+ 							$("#file-label").css("background-image", "url("+result+")");
+ 						}
+ 					}
+ 				});
+ 				//*/
+ 				
+ 			});
+  			
+  		});
+  		
+  		// summernote editor file upload
+  		function uploadSummernoteImageFile(file, el) {
+ 			data = new FormData();
+ 			data.append("file", file);
+ 			$.ajax({
+ 				data : data,
+ 				type : "POST",
+ 				url : "/uploadSummernoteImageFile",
+ 				contentType : false,
+ 				enctype : 'multipart/form-data',
+ 				processData : false,
+ 				success : function(data) {
+ 					$(el).summernote('editor.insertImage', data.url);
+ 				}
+ 			});
+ 		}
+  	</script>
+	
+	<style type="text/css">
+		#file-input{
+			display: none;
+		}
+		#file-label{
+			display: inline-block;
+			width: 200px;
+			height: 200px;
+			border: 2px dashed aqua;
+			color: aqua;
+			text-align: center;
+			line-height: 200px;
+			font-weight: 700;
+			background-color: rgba(0, 255, 255, 0.05);
+			
+			background-repeat: no-repeat;
+			background-size: cover;
+			background-position: center;
+		}
+	</style>
+	
+</head>
+<body>
+
+	<main>
+		<h1>관리자 페이지</h1>
+		<div class="wrap flex">
+			
+			<th:block th:insert="/admin/common::menu"/>
+			
+			<section id="content">
+				<h1>내용</h1>
+				<div class="wrap">
+					<p>상품 등록 페이지</p>
+					<form action="/admin/product/upload" method="post" enctype="multipart/form-data"> 
+						<p>
+							<label id="file-label" for="file-input">+</label>
+							<input id="file-input" type="file" name="file">
+						</p>
+						<p>
+							<input type="text" name="productName" placeholder="상품명">
+						</p>
+						<p>
+							<input type="text" name="price" placeholder="상품 가격">
+						</p>
+						<p>
+							<input type="text" name="salePrice" placeholder="상품 할인가">
+						</p>
+						<p class="flex center">
+							<textarea class="summernote" rows="40" cols="125" name="content" placeholder="상품 상세 설명"></textarea>
+						</p>
+						<p>
+							<button type="submit">등록</button>
+						</p>
+					</form>
+				</div>
+			</section>
+		</div>
+	</main>
+	
+</body>
+</html>
+
+
+
+

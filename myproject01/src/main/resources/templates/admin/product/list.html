@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	<link rel="stylesheet" href="/css/admin/common.css">
+	
+	<!-- summernote -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<!-- 서머노트를 위해 추가해야할 부분 -->
+  	<script src="/summernote/summernote-lite.js"></script>
+  	<script src="/summernote/lang/summernote-ko-KR.js"></script>
+  	<link rel="stylesheet" href="/summernote/summernote-lite.css">
+	
+	<script type="text/javascript">
+		$(function(){
+			
+			//summernote
+  			var toolbar = [
+  			    // 글꼴 설정
+  			    ['fontname', ['fontname']],
+  			    // 글자 크기 설정
+  			    ['fontsize', ['fontsize']],
+  			    // 굵기, 기울임꼴, 밑줄,취소 선, 서식지우기
+  			    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+  			    // 글자색
+  			    ['color', ['forecolor','color']],
+  			    // 표만들기
+  			    ['table', ['table']],
+  			    // 글머리 기호, 번호매기기, 문단정렬
+  			    ['para', ['ul', 'ol', 'paragraph']],
+  			    // 줄간격
+  			    ['height', ['height']],
+  			    // 그림첨부, 링크만들기, 동영상첨부
+  			    ['insert',['picture','link','video']],
+  			    // 코드보기, 확대해서보기, 도움말
+  			    ['view', ['codeview','fullscreen', 'help']]
+  			  ];
+
+  			var setting = {
+  	            height : 300,
+  	            minHeight : null,
+  	            maxHeight : null,
+  	            focus : true,
+  	            lang : 'ko-KR',
+  	            toolbar : toolbar,
+  	            callbacks : { //여기 부분이 이미지를 첨부하는 부분
+	  	            onImageUpload : function(files, editor, welEditable) {
+	  	            	for (var i = files.length - 1; i >= 0; i--) {
+		  	            	uploadSummernoteImageFile(files[i], this);
+	  	            	}
+	  	            }
+  	            }
+  	         };
+  			
+  			$(".summernote").summernote(setting);
+  			$(".note-editor").hide();
+  		
+			
+  			// 수정 버튼 클릭
+			$(".btn-edit").click(function(){
+				$(this).hide();
+				$(this).next().show();
+				$(this).parents("ul").find("input:disabled").removeAttr("disabled");
+				$(this).parents("ul").find(".content").hide();
+				$(this).parents("ul").find(".note-editor").show();
+			});
+			
+  			// 수정 취소
+			$(".btn-edit-cancel").click(function(){
+				$(this).parent().hide();
+				$(this).parent().prev().show();
+				$(this).parents("ul").find("input[type=text]").attr("disabled", true);
+				$(this).parents("ul").find(".content").show();
+				$(this).parents("ul").find(".note-editor").hide();
+			});
+			
+  			// 수정 후 저장 업데이트
+			$(".btn-edit-save").click(function(){
+				var productImg=$(this).parents("ul").find(".file-input").val();
+				var productName=$(this).parents("ul").find(".productName").val();
+				var price=$(this).parents("ul").find(".price").val();
+				var salePrice=$(this).parents("ul").find(".salePrice").val();
+				var content=$(this).parents("ul").find(".summernote").val();
+				var productNo=$(this).parents("ul").find(".productNo").text();
+				
+				$.ajax({
+					url: "/admin/product/"+productNo,
+					data: {
+						"productName" : productName,
+						"price" : price,
+						"salePrice" : salePrice,
+						"content" : content
+						},
+					type: "put",
+					success: function(){
+						location.reload();
+					}
+				});
+				
+			});
+  			
+			// 삭제
+			$(".btn-delete").click(function(){
+				var no=$(this).next().val();
+				
+				$.ajax({
+					url: "/admin/product/"+no,
+					type: "delete",
+					success: function(){
+						location.reload();
+					}
+				});
+			});
+			
+  		});
+  		
+		// summernote editor file upload
+		function uploadSummernoteImageFile(file, el) {
+ 			data = new FormData();
+ 			data.append("file", file);
+ 			$.ajax({
+ 				data : data,
+ 				type : "POST",
+ 				url : "/uploadSummernoteImageFile",
+ 				contentType : false,
+ 				enctype : 'multipart/form-data',
+ 				processData : false,
+ 				success : function(data) {
+ 					$(el).summernote('editor.insertImage', data.url);
+ 				}
+ 			});
+ 		}
+	</script>
+	
+	<style type="text/css">
+		#content .wrap{
+			width: 1100px;
+		}
+		.grid-container{
+			display: grid;
+			grid-template-columns: auto auto auto;
+		}
+		#result .file{
+			display: inline-block;
+			background-size: cover;
+			background-repeat: no-repeat;
+			width: 200px;
+			height: 200px;
+		}
+		
+		.content{
+			border: 1px solid #a9a9a9;
+			width: 300px;
+			height: 50px;
+			overflow: hidden;
+		}
+	</style>
+	
+</head>
+<body>
+
+	<main>
+		<h1>관리자 페이지</h1>
+		<div class="wrap flex">
+			
+			<th:block th:insert="/admin/common::menu"/>
+			
+			<section id="content">
+				<h1>내용</h1>
+				<div class="wrap">
+					<p>상품 리스트 페이지</p>
+					
+					<div id="result" class="grid-container">
+						
+						<ul th:each="dto : ${list}">
+							<li class="productNo" th:text="${dto.no}">번호</li>
+							<li class="flex column">
+								<!-- <img th:src="${dto.fileUrl + dto.fileName}" width="200px"> -->
+								<span class="file" th:style="|background-image: url('${dto.fileUrl + dto.fileName}');|"></span>
+							</li>   <!-- src="/images/visual" -->
+							<li>
+								<input class="productName" type="text" name="productName" th:value="${dto.productName}" disabled="disabled">
+							</li>
+							<li>
+								<input class="price" type="text" name="price" th:value="${dto.price}" disabled="disabled">
+							</li>
+							<li>
+								<input class="salePrice" type="text" name="salePrice" th:value="${dto.salePrice}" disabled="disabled">
+							</li>
+							<li>
+								<div class="content">[(${dto.content})]</div>
+								<textarea class="summernote" rows="40" cols="125" name="content" placeholder="상품 상세 설명">[(${dto.content})]</textarea>
+							</li>
+							<li>
+								<button class="btn-edit">수정</button>
+		
+								<span class="btn-edit-done" style="display: none;">
+									<button class="btn-edit-save">저장</button>
+									<button class="btn-edit-cancel">취소</button>
+								</span>
+									
+								<button class="btn-delete">삭제</button>
+								<input class="no" type="hidden" th:value="${dto.no}">
+							</li>
+							
+						</ul>
+					
+					</div>
+					
+					
+				</div>
+			</section>
+		</div>
+	</main>
+	
+</body>
+</html>

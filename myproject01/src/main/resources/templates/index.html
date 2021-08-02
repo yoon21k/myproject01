@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	<link rel="stylesheet" href="/css/index.css">
+	<script src="/js/new.js"></script>
+	<script src="/js/best.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+	
+</head>
+<body>
+	<th:block th:insert="/common/common::header"></th:block>
+	
+	<main>
+		<h1>메인</h1>
+		<div>
+			<section id="main">
+				<div class="wrap">
+					<div class="main-img"></div>
+					
+					<div class="main-s1 flex between">
+						<div class="new-product">
+							<div class="new-title flex center">
+								<p>New</p>
+								<p>Product</p>
+							</div>
+							<div class="slide-btn">
+								<span class="left-btn"><i class="fas fa-angle-left"></i></span>
+								<span class="right-btn"><i class="fas fa-angle-right"></i></span>
+							</div>
+							<ul class="flex">
+								<li>
+									<a href="#">
+										<div class="new-img1"></div>
+										<p>Arctis Prime</p>
+										<p>149,000</p>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<div class="new-img2"></div>
+										<p>Prime+</p>
+										<p>109,000</p>
+									</a>
+								</li>
+								<li>
+									<a href="#">
+										<div class="new-img3"></div>
+										<p>PrismCaps</p>
+										<p>44,000</p>
+									</a>
+								</li>	
+							</ul>
+						</div>
+						<div class="Notice flex column between">
+							<ul>	
+								<p>Notice</p>
+								<li><a href="#">[공지사항] 신규매장 입점 및 할인행사 안내 - 일렉트로마트 스타필드시티부천점</a></li>
+								<li><a href="#">[공지사항] 오프라인 매장 안내 - Frisbee</a></li>
+								<li><a href="#">[공지사항] 5월 6일 어린이날 대체 휴무</a></li>
+								<li><a href="#">[공지사항] 5월 1일 근로자의 날 휴무</a></li>
+							</ul>
+							<div class="event-img"></div>
+						</div>
+					</div>
+					<div class="sub-img"></div>
+					
+					<div class="main-s2">
+						<div class="best-product">
+							<p class="best-title">Best Product</p>
+							<ul class="slick-ul">
+								<li class="slider">
+									<div>
+										<a href="#">
+											<div class="best-img1"></div>
+											<p>QcK Heavy ㅡ XXL</p>
+											<p>46,500</p>
+										</a>
+									</div>
+									<div>
+										<a href="#">
+											<div class="best-img2"></div>
+											<p>Arctis 1 Wireless Black</p>
+											<p>119,000</p>
+										</a>	
+									</div>
+									<div>
+										<a href="#">
+											<div class="best-img3"></div>
+											<p>Arctis Pro Wireless Black</p>
+											<p>399,000</p>
+									</div>
+								</li>
+								<li class="slider flex between">
+									<div>
+										<a href="#">
+											<div class="best-img4"></div>
+											<p>Arctis Prime</p>
+											<p>149,000</p>
+										</a>	
+									</div>
+									<div>
+										<a href="#">
+											<div class="best-img5"></div>
+											<p>Arctis 7P</p>
+											<p>229,000</p>
+										</a>	
+									</div>
+									<div>
+										<a href="#">
+											<div class="best-img6"></div>
+											<p>Arctis 7 Black</p>
+											<p>199,000</p>
+										</a>	
+									</div>
+								</li>
+								<li class="slider flex between">
+									<div>
+										<a href="#">
+											<div class="best-img7"></div>
+											<p>Arctis 7 White</p>
+											<p>199,000</p>
+										</a>	
+									</div>
+									<div>
+										<a href="#">
+											<div class="best-img8"></div>
+											<p>Apex Pro</p>
+											<p>269,000</p>
+										</a>
+									</div>
+									<div>
+										<a href="#">
+											<div class="best-img9"></div>
+											<p>Aerox 3 Wireless</p>
+											<p>139,000</p>
+										</a>
+									</div>
+								</li>
+							</ul>
+						
+						</div>
+					</div>
+			
+				</div>
+			</section>
+		</div>
+	</main>
+	
+	<th:block th:insert="/common/common::footer"></th:block>
+</body>
+</html>

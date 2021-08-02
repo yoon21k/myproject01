@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div class="review-area" th:each="reviewResultDto : ${review}">
+	<div class="wrap">
+		<div class="review-box flex">
+			<div class="review-content">
+				<p class="review-default" th:text="${reviewResultDto.review}"></p>
+				<!-- <input class="fold" type="text" th:value="${reviewResultDto.review}" disabled="disabled"> -->
+				<textarea class="review-edit-input" style="display: none">[[${reviewResultDto.review}]]</textarea>
+			</div>
+			<div class="writer-date flex column center">
+				<span class="writer" th:text="${reviewResultDto.writer}"></span>
+				<span th:text="${#temporals.format(reviewResultDto.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
+			</div>
+			<span class="review-no" th:text="${reviewResultDto.no}" style="display: none;"></span>
+		</div>
+		
+		<span class="sessionId" sec:authorize="isAuthenticated()" th:text="${#authentication.principal.name}" style="display: none;"></span>
+		<div sec:authorize="isAuthenticated()" class="btn-box flex" style="display: none;">
+			<button class="btn-edit">수정</button>
+			
+			<span class="btn-edit-done" style="display: none;">
+				<button class="btn-edit-save">저장</button>
+				<button class="btn-edit-cancel">취소</button>
+			</span>
+			
+			<button class="btn-delete">삭제</button>
+		</div>
+		
+		<div class="toggle-area">
+			<div class="toggle-fold">
+				<div class="review-file">
+					<!-- <img th:src="${reviewResultDto.fileUrl + reviewResultDto.fileName}"> -->
+					<span class="fold-img" th:style="|background-image: url('${reviewResultDto.fileUrl + reviewResultDto.fileName}');|"></span>
+				</div>
+			</div>
+			<div class="toggle-open">
+				<div class="review-file">
+					<!-- <img th:src="${reviewResultDto.fileUrl + reviewResultDto.fileName}"> -->
+					<span class="open-img" th:style="|background-image: url('${reviewResultDto.fileUrl + reviewResultDto.fileName}');|"></span>
+				</div>
+			</div>
+		</div>
+		<div class="reply-box">
+			<div class="review-reply">
+				<!-- 리뷰 댓글 -->
+			</div>
+			<div class="reply-content">
+				<textarea sec:authorize="isAuthenticated()" class="reply" name="reply" placeholder="댓글"></textarea>
+				<textarea sec:authorize="isAnonymous()" class="reply" name="reply" placeholder="로그인이 필요합니다." disabled="disabled"></textarea>
+				<button sec:authorize="isAuthenticated()" class="btn-reply-done">작성</button>
+			</div>
+			
+			<div sec:authorize="isAuthenticated()">
+				<input class="reply-writer" type="hidden" name="writer" th:value="${#authentication.principal.name}">
+			</div>
+		</div>
+		
+			
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		
+		// 리뷰 영역 toggle +
+		$(".toggle-open").hide();
+		$(".reply-box").hide();
+		$(".toggle-area").click(function(){
+			
+			/* if($(this).parents(".review-area").find(".writer").text() == $(this).parents(".review-area").find(".sessionId").text()){
+				$(this).parents(".review-area").find(".btn-box").css("display", "block");
+			}else{
+				$(this).parents(".review-area").find(".btn-box").css("display", "none");
+			} */
+			
+			var target=$(this);
+			$(".toggle-area").not(target).find(".toggle-fold").css("display", "block");
+			$(".toggle-area").not(target).find(".toggle-open").css("display", "none");
+			$(".toggle-area").not(target).parents(".review-area").find(".reply-box").css("display", "none");
+			
+			$(".toggle-area").not(target).parents(".review-area").find(".btn-edit-done").css("display", "none");
+			$(".toggle-area").not(target).parents(".review-area").find(".btn-edit").css("display", "inline-block");
+			$(".toggle-area").not(target).parents(".review-area").find(".btn-box").css("display", "none");
+			$(".toggle-area").not(target).parents(".review-area").find(".review-edit-input").css("display", "none");
+			$(".toggle-area").not(target).parents(".review-area").find(".review-default").css("display", "inline-block");
+			
+			if($(this).find(".toggle-open").is(":hidden") && $(this).parents(".review-area").find(".review-edit-input").is(":hidden")){
+				
+				$(this).find(".toggle-fold").css("display", "none");
+				$(this).find(".toggle-open").css("display", "block");
+				$(this).parents(".review-area").find(".reply-box").css("display", "block");
+				$(this).parents(".review-area").find(".btn-box").css("display", "block");
+				
+				// toggle 시 리뷰 댓글 가져오기
+				var no=$(this).parents(".review-area").find(".review-no").text();
+				$.ajax({
+					url: "/store/refurbish/review/"+no+"/reply",
+					success: function(result){
+						$(".review-reply").html(result);
+					}
+				});
+				
+				
+			}else if($(this).find(".toggle-open").is(":visible")){
+				$(this).find(".toggle-fold").css("display", "block");
+				$(this).find(".toggle-open").css("display", "none");
+				$(this).parents(".review-area").find(".reply-box").css("display", "none");
+				
+				if($(this).parents(".review-area").find(".writer").text() == $(this).parents(".review-area").find(".sessionId").text()){
+					$(this).parents(".review-area").find(".btn-box").css("display", "block");
+				}else{
+					$(this).parents(".review-area").find(".btn-box").css("display", "none");
+				}
+				
+				$(this).parents(".review-area").find(".btn-edit-done").css("display", "none");
+				$(this).parents(".review-area").find(".btn-edit").css("display", "inline-block");
+				$(this).parents(".review-area").find(".btn-box").css("display", "none");
+				
+				$(this).parents(".review-area").find(".review-edit-input").css("display", "none");
+				$(this).parents(".review-area").find(".review-default").css("display", "inline-block");
+				
+			}
+			
+		});
+		
+		
+		$(".btn-edit").click(function(){
+			$(this).hide();
+			$(this).next().show();
+			$(this).parents(".review-area").find(".review-default").css("display", "none");
+			$(this).parents(".review-area").find(".review-edit-input").css("display", "inline-block");
+		});
+		
+		$(".btn-edit-cancel").click(function(){
+			$(this).parent().hide();
+			$(this).parent().prev().show();
+			$(this).parents(".review-area").find(".review-edit-input").css("display", "none");
+			$(this).parents(".review-area").find(".review-default").css("display", "inline-block");
+		});
+		
+		$(".btn-edit-save").click(function(){
+			var review=$(this).parents(".review-area").find(".review-edit-input").val();
+			var no=$(this).parents(".review-area").find(".review-no").text();
+			
+			$.ajax({
+				url: "/store/refurbish/review/"+no,
+				type: "put",
+				data: {"review" : review},
+				success: function(){
+					getReviewList();
+				}
+			});
+		});
+		
+		$(".btn-delete").click(function(){
+			var no=$(this).parents(".review-area").find(".review-no").text();
+			
+			$.ajax({
+				url: "/store/refurbish/review/"+no,
+				type: "delete",
+				success: function(){
+					getReviewList();
+				}
+			});
+		});
+		
+		$(".btn-reply-done").click(function(){
+			var reply=$(this).parents(".reply-box").find(".reply").val();
+			var writer=$(this).parents(".reply-box").find(".reply-writer").val();
+			var no=$(this).parents(".review-area").find(".review-no").text();
+			
+			$.ajax({
+				url: "/store/refurbish/review/"+no+"/reply",
+				type: "post",
+				data: {"reply" : reply, "writer" : writer},
+				success: function(result){
+					$(".review-reply").html(result);
+					getReviewList();
+				}
+			});
+		});
+	
+	});
+	
+	
+</script>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

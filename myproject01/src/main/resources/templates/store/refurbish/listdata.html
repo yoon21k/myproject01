@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- 상품정보 리스트 -->
+
+<ul th:each="dto : ${list}">	
+	<li>
+		<!-- <img th:src="${dto.fileUrl + dto.fileName}" width="336px"> -->
+		<span class="product-img" th:style="|background-image: url('${dto.fileUrl + dto.fileName}');|">
+			<a th:href="|/store/refurbish/${dto.no}|"><!-- 상품이미지 --></a>
+		</span>
+	</li>  
+	<li>
+		<a th:href="|/store/refurbish/${dto.no}|">
+			<span>[<span class="refur">리퍼</span>]</span>
+			<span th:text="${dto.productName}">상품명</span>
+		</a>	
+	</li>
+	<li>
+		<span style="width: 336px;">
+			<span class="price" th:text="${dto.price}">가격</span>	
+			<span class="sale-price" th:text="${dto.salePrice}">할인가격</span>
+		</span>
+	</li>
+	<li th:text="${dto.no}" style="display : none;">no</li>
+</ul>
+
+
+</html>

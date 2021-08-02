@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	<link rel="stylesheet" href="/css/admin/common.css">
+	<style type="text/css">
+		#file{
+			display: none;
+		}
+		.file-box{
+			display: block;
+			width: 300px;
+			height: 150px;
+			border: 2px solid aqua;
+			text-align: center;
+			color: aqua;
+			line-height: 150px;
+			font-size: 24px;
+			font-weight: 700;
+			cursor: pointer;
+			background-color: rgba(0, 255, 255, 0.05);
+			
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: cover;
+		}
+	</style>
+	<script type="text/javascript">
+		$(function(){
+			// visual 이미지 파일이 선택되었을때 이벤트(등록)
+			$("#file").change(function(){
+				var fileInfo=$("#file")[0].files[0]   // 현재 선택한 파일정보 가져오기 
+				// console.log(fileInfo);
+				var formData=new FormData();
+				formData.append("tempFile", fileInfo);
+				
+				//*
+				$.ajax({
+					url: "/admin/visual/temp",
+					type: "post",
+					data: formData,   // fileInfo 외에 다른정보도 넘겨줄 경우 formData에 담아서
+					// ajax로 bin 데이터를 업로드 시킬때 두가지 false
+					// enctype="multipart/form-data" 설정과 동일
+					contentType: false,   // multipart/form-data 로 전송되게함  
+					processData: false,   // formData를 string으로 변환하지않음
+					success: function(result){
+						// alert("result : " + result);
+						$(".file-box").css("background-image", "url("+result+")");
+					}
+				});
+				//*/
+			});
+		});
+	</script>
+</head>
+<body>
+
+	<main>
+		<h1>관리자 페이지</h1>
+		<div class="wrap flex">
+			
+			<th:block th:insert="/admin/common::menu"/>
+			
+			<section id="content">
+				<h1>내용</h1>
+				<div class="wrap">
+					<p>비주얼 등록 페이지</p>
+					<form action="/admin/visual/write2" method="post" enctype="multipart/form-data">  
+						<p>
+							<label class="file-box" for="file">+</label>   <!-- for는 id와 연결 -->
+							<input id="file" type="file" name="file">
+						</p>
+						<p>
+							<input id="title" type="text" name="title">
+						</p>
+						<p>
+							<input type="text" name="link">
+						</p>
+						<p>
+							<button type="submit">등록</button>
+						</p>
+					</form>
+				</div>
+			</section>
+		</div>
+	</main>
+	
+</body>
+</html>

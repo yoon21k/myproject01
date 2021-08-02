@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<ul class="flex">
+	<li>title</li>
+	<li>image</li>
+	<li>subtitle</li>
+	<li>pubDate</li>
+	<li>director</li>
+	<li>actor</li>
+	<li>userRating</li>
+</ul>
+<ul class="flex" th:each="dto : ${list}">
+	<th:block th:if="${!#strings.isEmpty(dto.image)}">
+		<li th:utext="${dto.title}">title</li>
+		<li><a th:href="${dto.link}"><img th:src="${dto.image}"></a></li>
+		<li th:text="${dto.subtitle}">subtitle</li>
+		<li th:text="${dto.pubDate}">pubDate</li>
+		<li th:text="${dto.director}">director</li>
+		<li th:text="${dto.actor}">actor</li>
+		<li th:text="${dto.userRating}">userRating</li>
+	</th:block>
+</ul>
+
+</html>

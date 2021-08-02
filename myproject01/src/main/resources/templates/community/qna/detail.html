@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	<link rel="stylesheet" href="/css/community/qna/detail.css">
+	
+</head>
+<body>
+	
+	<main>
+		<div class="title">
+			<p><a href="/community/qna/list">Q&A</a></p>
+		</div>
+		<div class="qna-detail">
+			<ul>
+				<li class="writer-info">
+					<i class="fas fa-user-circle"></i>
+					<span class="writer" th:text="${detail.writer}"></span>
+				</li>
+				<li class="question flex center">
+					<input class="subject" type="text" th:value="${detail.subject}" disabled="disabled">
+				</li>
+				<li class="div-date flex center">
+					<span class="flex between">
+						<span class="division" th:text="${detail.division}"></span>
+						<span th:text="${#temporals.format(detail.createdDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
+					</span>
+				</li>
+				<li class="flex center">
+					
+				</li>
+				<li class="flex center">
+					<textarea class="content" disabled="disabled">[[${detail.content}]]</textarea>
+				</li>
+			</ul>
+			
+			<div class="flex center">
+				<div class="qna-reply">
+					<div>
+						<span>답변</span>
+					</div>
+					<ol th:each="qnaReplyResultDto : ${reply}">
+						<li class="flex">
+							<span th:text="${qnaReplyResultDto.writer}"></span>
+							<span class="reply-date">
+								<span th:unless="${qnaReplyResultDto.createdDate.toLocalDate().isEqual(today)}">
+									[[${qnaReplyResultDto.createdDate.toLocalDate()}]]
+								</span>
+								<span th:if="${today eq qnaReplyResultDto.createdDate.toLocalDate()}">
+									[[${#temporals.format(qnaReplyResultDto.createdDate, 'HH:mm')}]]
+								</span>
+							</span>
+						</li>
+						<li class="reply-content">
+							<span th:text="${qnaReplyResultDto.reply}"></span>
+						</li>
+					</ol>
+				</div>
+			</div>
+			
+			<span class="sessionId" sec:authorize="isAuthenticated()" th:text="${#authentication.principal.name}" style="display: none;"></span>
+			<div class="qna-edit flex" style="display: none;">
+				<button class="btn-edit" type="submit">수정</button>
+				
+				<span class="btn-edit-able flex" style="display: none;">
+					<button class="btn-edit-save">저장</button>
+					<button class="btn-edit-cancel">취소</button>
+				</span>
+				
+				<button class="btn-delete" type="submit">삭제</button>
+				<input class="no" type="hidden" th:value="${detail.no}">
+			</div>
+			
+		</div>
+		
+		<div class="space" style="height: 300px;"></div>
+	</main>
+	
+	<script type="text/javascript">
+	
+		$(function(){
+			
+			$(".note-editor").css("display", "none");
+			
+			if($(".writer").text()==$(".sessionId").text()){
+				$(".qna-edit").css("display", "flex");
+			}else{
+				$(".qna-edit").css("display", "none");
+			}
+			
+			// 수정 버튼 클릭
+			$(".btn-edit").click(function(){
+				$(this).hide();
+				$(this).next().show(); 
+				$(this).parents(".qna-detail").find("input:disabled, textarea:disabled").removeAttr("disabled");
+				$(this).parents(".qna-detail").find("textarea.content").css("border", "1px solid #a5a5a7");
+				
+			});
+			
+			// 삭제 버튼 클릭
+			$(".btn-delete").click(function(){
+				var _no=$(this).next().val();   
+				
+				$.ajax({
+					url: "/community/qna/"+_no,
+					type: "delete",
+					success:function(){
+						location.href="/community/qna/list";
+					}
+				});
+			});
+			
+			// 저장 버튼 클릭
+			$(".btn-edit-save").click(function(){
+				var subject=$(this).parents(".qna-detail").find(".subject").val();
+				var content=$(this).parents(".qna-detail").find(".content").val();
+				var no=$(this).parents(".qna-detail").find(".no").val();
+				
+				$.ajax({
+					url: "/community/qna/"+no,
+					data: {"subject":subject, "content":content},   // key(parameter name값 "") : value
+					type: "put",
+					success: function(){
+						// pageNo=1;   // 수정 후 첫페이지로 가려면
+						location.reload();
+					}
+				});
+			});
+			
+			// 취소 버튼 클릭
+			$(".btn-edit-cancel").click(function(){
+				$(this).parent().hide();
+				// $(this).parent().prev().show();
+				$(this).parents(".qna-edit").find(".btn-edit").show();
+				$(this).parents(".qna-detail").find("input.subject, textarea.content").attr("disabled", true);
+				$(this).parents(".qna-detail").find("textarea.content").css("border", "1px solid #e9e9e9");
+			
+			});
+			
+			
+		
+		});
+		
+		
+	</script>
+
+</body>
+</html>
+
+
+
+
+

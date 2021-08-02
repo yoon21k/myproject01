@@ -1,0 +1,489 @@
+@charset "UTF-8";
+
+main> .wrap{
+	width: 1100px;
+	margin: 0 auto;
+	padding-top: 50px;
+}
+
+#product-detail .wrap{
+	height: 520px;
+}
+
+#product-detail .img-area .product-img{
+	display: inline-block;
+	width: 520px;
+	height: 520px;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.info-area{
+	width: 520px;
+	padding-left: 80px;
+}
+
+.product-info{
+	color: #2a2a2a;
+	font-weight: 300;
+}
+
+.product-info span{
+	letter-spacing: 1px;
+}
+
+.product-info .product-name{
+	font-size: 22px;
+}
+
+.product-info .product-name .refur{
+	font-weight: 700;
+}
+
+.product-info .product-price{
+	color: #4f4f4f;
+	margin: 25px 0;
+	border-bottom: 1px solid #e9e9e9;
+	padding-bottom: 25px;
+}
+
+.product-info .product-price .sale-price{
+	font-size: 20px;
+	height: 100%;
+}
+
+.product-info .product-price .price{
+	font-size: 15px;
+	height: 100%;
+	color: #a9a9a9;
+	text-decoration: line-through;
+}
+
+.detail-info{
+	font-size: 12px;
+	color: #2a2a2a;
+}
+
+.detail-info span{
+	font-weight: 700;
+	margin-right: 5px;
+}
+
+.price-count{
+	width: 100%;
+	height: 108px;
+	padding: 10px;
+	margin: 10px 0;
+	background-color: rgba(0, 0, 0, 0.02);
+}
+
+.price-count> p{
+	color: #2a2a2a;
+	font-size: 12px;
+	padding-bottom: 10px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #e9e9e9; 
+}
+
+.price-count .count-box{
+	width: 100px;
+	height: 34px;
+	border: 1px solid #ddd;
+}
+
+.price-count .count-box a{
+	display: inline-block;
+	color: #a9a9a9;
+	width: 20px;
+	height: 34px;
+	line-height: 30px;
+	text-align: center;
+	font-size: 15px;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+}
+
+.price-count .count-box input{
+	width: 60px;
+	text-align: center;
+	color: #a9a9a9;
+}
+
+.price-count .sale-price{
+	color: #2a2a2a;
+	font-size: 15px;
+	font-weight: 300;
+	line-height: 34px;
+	letter-spacing: 1px;
+}
+
+.price-total{
+	padding: 15px 0 20px;
+}
+
+.price-total p{
+	font-size: 15px;
+	color: #4f4f4f;
+	line-height: 34px;
+}
+
+.price-total .sale-price{
+	color: #2a2a2a;
+	font-size: 20px;
+	font-weight: 300;
+	line-height: 34px;
+	letter-spacing: 1px;
+}
+
+.payment div a{
+	display: inline-block;
+	width: 143px;
+	height: 46px;
+	font-size: 14px;
+	color: #2a2a2a;
+	border: 1px solid #2a2a2a;
+	text-align: center;
+	line-height: 46px;
+	cursor: pointer;
+}
+
+.payment .btn-buy a{
+	background-color: #2a2a2a;
+	color: #fff;
+}
+
+/* ////////////////////////////////////////////////// */
+
+.detail-menu{
+	font-size: 15px;
+	color: #a9a9a9;
+	text-align: center;
+	line-height: 60px;
+	padding-top: 30px;
+}
+
+.detail-menu li{
+	width: 150px;
+	height: 60px;
+	cursor: pointer;
+}
+
+.detail-menu li.clicked{
+	color: #2a2a2a;
+	font-weight: 700;
+}
+
+#detail-img{
+	border-top: 1px solid #e9e9e9;
+	padding-top: 20px;
+}
+
+#detail-img> div{
+	margin-bottom: 10px;
+	display: flex;
+	justify-content: center;
+}
+
+#detail-img .refur-img{
+	background-image: url("/images/product/detail/refur-img.jpg");
+	width: 900px;
+	height: 350px;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+#detail-img .info-img{
+	background-image: url("/images/product/detail/info-img.jpg");
+	width: 900px;
+	height: 2650px;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+/* ////////////////////////////////////////////////// */
+
+#product-review {
+	padding-top: 80px;
+}
+
+#product-review .wrap> p{
+	font-size: 16px;
+	color: #2a2a2a;
+	font-weight: 700;
+	padding-bottom: 1em;
+}
+
+#product-review dl dt{
+	padding-bottom: 20px;
+	border-bottom: 1px solid #2a2a2a;
+}
+
+.btn-review-write{
+	width: 127px;
+	height: 39px;
+	background-color: #2a2a2a;
+	color: #fff;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.review-img{
+	padding-top: 20px;
+}
+
+.review-input{
+	padding: 20px 0;
+	position: relative;
+	border-bottom: 1px solid #e9e9e9;
+}
+
+.review{
+	width: 700px;
+	height: 136px;
+	border: 1px solid #e9e9e9;
+	padding: 16px;
+	outline: none;
+}
+
+.btn-review-done{
+	width: 48px;
+	height: 32px;
+	background-color: #2a2a2a;
+	color: #fff;
+	line-height: 32px;
+	text-align: center;
+	font-size: 12px;
+	position: absolute;
+	bottom: 41px;
+	right: 418px;
+	cursor: pointer;
+}
+
+#file-input{
+	display: none;
+}
+#file-label{
+	display: inline-block;
+	width: 95px;
+	height: 95px;
+	border: 1px solid #e9e9e9;
+	color: #a9a9a9;
+	font-size: 30px;
+	text-align: center;
+	line-height: 95px;
+	background-color: rgba(0, 0, 0, 0.03); 
+	
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+	cursor: pointer;
+}
+
+/* ////////////////////////////////////////////////// */
+
+.review-area{
+	border-bottom: 1px solid #e9e9e9;
+	padding-bottom: 14px;
+	position: relative;
+}
+
+.review-box{
+	font-size: 14px;
+	color: #2a2a2a;
+	padding: 1em 0;	
+}
+
+.review-content{
+	width: 900px;
+}
+
+.review-content .rating{
+	padding: 5px 0;
+}
+
+.review-content p{
+	width: 700px;
+}
+
+.review-content .review-edit-input{
+	width: 700px;
+	height: 136px;
+	border: 1px solid #e9e9e9;
+	outline: none;
+	padding: 16px;
+}
+
+.writer-date{
+	width: 200px;
+	height: 34px;
+	color: #a5a5a7;
+	font-size: 13px;
+}
+
+.btn-box{
+	position: absolute;
+	top: 70px;
+	right: 143px;
+	height: 17px;
+	line-height: 17px;
+	margin-top: 16px;
+}
+
+.btn-edit-done{
+	display: inline-block;
+	height: 17px;
+}
+
+.btn-box button:not(.btn-edit-save){
+	background-color: #fff;
+	font-size: 13px;
+	color: #a5a5a7;
+	height: 17px;
+	cursor: pointer;
+}
+
+.btn-edit-save{
+	position: absolute;
+	top: 15px;
+	right: 275px;
+	width: 48px;
+	height: 32px;
+	background-color: #2a2a2a;
+	color: #fff;
+	line-height: 32px;
+	text-align: center;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.toggle-area{
+	cursor: pointer;
+}
+
+.fold-img{
+	display: inline-block;
+	width: 100px;
+	height: 100px;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+
+.open-img{
+	display: inline-block;
+	width: 480px;
+	height: 480px;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+
+.reply-content{
+	position: relative;
+}
+
+.reply-content .reply{
+	width: 700px;
+	height: 136px;
+	padding: 16px;
+	border: 1px solid #e9e9e9;
+	outline: none;
+}
+
+.btn-reply-done{
+	width: 48px;
+	height: 32px;
+	background-color: #2a2a2a;
+	color: #fff;
+	line-height: 32px;
+	text-align: center;
+	font-size: 12px;
+	position: absolute;
+	bottom: 21px;
+	right: 418px;
+	cursor: pointer;
+}
+
+.review-reply{
+	width: 700px;
+	margin-top: 16px;
+}
+
+.reply-writer-date i{
+	font-size: 32px;
+	margin-right: 5px;
+}
+
+.reply-writer-date p{
+	margin-left: 5px;
+	font-size: 13px;
+	color: #a5a5a7;
+}
+
+.reply-edit-box{
+	color: #a5a5a7;
+	font-size: 13px;
+	padding: 0 0 20px 42px;
+	border-bottom: 1px solid #e9e9e9;
+	margin-bottom: 20px;
+	position: relative;
+}
+
+.reply-btn-box{
+	display: block;
+}
+
+.reply-edit-input{
+	padding: 16px;
+	width: 700px;
+	height: 136px;
+	border: 1px solid #e9e9e9;
+	outline: none;
+}
+
+.reply-btn-box button:not(.reply-btn-edit-save){
+	padding-top: 20px;
+	width: 26px;
+	height: 17px;
+	background-color: #fff;
+	color: #a5a5a7;
+	font-size: 13px;
+	cursor: pointer;
+}
+
+.reply-btn-edit-save{
+	position: absolute;
+	top: 87px;
+	right: -25px;
+	width: 48px;
+	height: 32px;
+	background-color: #2a2a2a;
+	color: #fff;
+	line-height: 32px;
+	text-align: center;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

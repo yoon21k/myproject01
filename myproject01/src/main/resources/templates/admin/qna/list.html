@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	<link rel="stylesheet" href="/css/admin/common.css">
+	<style type="text/css">
+		#content{
+			padding: 50px;
+		}
+		#sub ul{
+			border-top: 2px solid #aaa;
+			border-bottom: 1px solid #aaa;
+		}
+		#sub ul li{
+			padding: 0.5em 1em;
+		}
+		#result dl dd{
+			background-color: #e9e9e9;
+			padding: 1em;
+		}
+		#pagging{
+			padding: 1em 0;
+		}
+		#pagging button{
+			padding: 0.5em 1em;
+			margin: 0 5px;
+		}
+		#result dl dt{
+			width: 800px;
+			height: 50px;
+		}
+		hr{
+			margin: 20px 0;
+		}
+	</style>
+	
+	<script type="text/javascript">
+		var pageNo=1;
+		var div=0;   // division 정보 변수
+		
+		$(function(){
+			// 최초 로딩 시에 0 
+			getQnaList(div);   
+			// 클릭할때 해당하는 parameter로 division 결정
+			$("#sub ul li").click(function(){
+				pageNo=1;   // division 변경 시 다시 1번페이지로 초기화
+				div = $(this).index();   // this -> 클릭된 대상(li)
+				getQnaList(div);
+			});
+			
+		});
+		function getQnaList(division){
+			$.ajax({
+				url: "/admin/qna/"+division+"/"+pageNo,   // "/admin/qna/0;
+				type: "get",
+				// data: {page : pageNo},
+				success: function(result){   // return "/admin/qna/listdata";
+					$("#result").html(result);   // return한 결과를 html로 
+	
+				}
+			});
+		} 
+	</script>
+	
+</head>
+<body>
+
+	<main>
+		<h1>관리자 페이지</h1>
+		<div class="wrap flex">
+			
+			<th:block th:insert="/admin/common::menu"/>
+			
+			<section id="content">
+				<h1>내용</h1>
+				<div class="wrap">
+					<p>QNA 리스트 페이지</p>
+					<div id="sub">
+						<ul class="flex">
+							<li>교환반품</li>
+							<li>주문결제</li>
+							<li>배송</li>
+							<li>기타</li>
+						</ul>
+					</div>
+					<div id="result">
+						<!-- listdata가 들어갈 영역 -->
+					</div>
+					
+				</div>
+			</section>
+		</div>
+	</main>
+	
+</body>
+</html>

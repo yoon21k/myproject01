@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	<link rel="stylesheet" href="/css/community/qna/list.css">
+</head>
+<body>
+	<th:block th:insert="/common/common::header"></th:block>
+	
+	<main>
+		<p>Notice</p>
+		
+		<th:block th:insert="/community/qna/list::header"></th:block>
+		
+		<div class="notice-menu view-size">
+			<ul class="flex">
+				<li><a href="#">공지사항</a></li>
+				<li><a href="#">프로모션</a></li>
+			</ul>
+		</div>
+	</main>
+	
+	<th:block th:insert="/common/common::footer"></th:block>
+</body>
+</html>

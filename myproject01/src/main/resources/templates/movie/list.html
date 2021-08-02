@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	
+	<script type="text/javascript">
+		$(function(){
+			$("#btn-daily").click(getDailyList);
+			$("#btn-naver").click(getSearchMovie);
+			
+		});
+		
+		function getDailyList(){
+			$.ajax({
+				url: "/movie/daily",
+				data: {targetDt : $("#targetDt").val(), itemPerPage : $("#itemPerPage").val()},
+				success: function(result){
+					$("#result").html(result);
+				}
+			});
+		}
+		
+		function getSearchMovie(){
+			var searchText=$("#searchText").val();
+			
+			$.ajax({
+				url: "/movie/naver",
+				data: {"searchText" : searchText},
+				success: function(result){
+					$("#result").html(result);
+				}
+			});
+		}
+	</script>
+	
+	<style type="text/css">
+		main> .wrap{
+			width: 1100px;
+			margin: 0 auto;
+		}
+		#result ul li{
+			flex: 1;
+			border-bottom: 1px solid #a9a9a9;
+		}
+	</style>
+</head>
+<body>
+	<th:block th:insert="/common/common::header"></th:block>
+	
+	<main>
+		<h1>영화정보</h1>
+		<div class="wrap">
+			<div>
+				<div>영화진흥위원회 오픈API 일일 박스오피스</div>
+				<input id="targetDt" type="text" placeholder="예:20210101"> 
+				<input id="itemPerPage" type="text" placeholder="영화 수"> 
+				<button id="btn-daily">검색</button>
+			</div>
+			<div>
+				<div>네이버 영화 검색</div>
+				<input id="searchText" type="text" placeholder="영화 검색"> 
+				<button id="btn-naver">검색</button>
+			</div>
+			<div id="result">
+			
+			</div>
+		</div>
+	</main>
+	
+	<th:block th:insert="/common/common::footer"></th:block>
+</body>
+</html>

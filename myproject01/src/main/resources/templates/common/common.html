@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head  th:fragment="head">
+	<meta charset="UTF-8">
+	<title>myproject01</title>
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="/css/common.css">
+	<link rel="stylesheet" href="/css/header.css">
+	<link rel="stylesheet" href="/css/footer.css">
+	<script src="https://kit.fontawesome.com/cbe603a4b6.js" crossorigin="anonymous"></script>
+	
+</head>
+<body>
+	<header th:fragment="header">
+		<h1>상단</h1>
+		<div>
+			<section id="header">
+				<div class="wrap flex center">
+					<a href="#"><i class="fas fa-chevron-circle-down"></i> 정품등록 바로가기</a>
+				</div>
+				<div class="header-logo flex center">
+					<div class="logo-area flex">
+						<a href="/">
+							<span class="logo-img"></span>
+						</a>
+						<p>myproject01</p>
+					</div>
+					<div class="login-area">
+						<ol class="flex">
+							<li sec:authorize="isAnonymous()">
+								<a href="/log/login">
+									<span>Login</span>
+								</a>
+								<span>/</span>
+							</li>
+							<li sec:authorize="isAuthenticated()">
+								<a href="/admin/index" sec:authorize="hasRole('ADMIN')">
+									<span>*관리자페이지</span>
+								</a>
+								<span sec:authentication="principal.name"></span>님!
+								<span>/</span>
+							</li>
+							<li sec:authorize="isAnonymous()"> 
+								<a href="/log/join">
+									<span>Join</span>
+								</a>
+								<span>/</span>
+							</li>
+							<li sec:authorize="isAuthenticated()">
+								<a href="#">
+									<span>My</span>
+								</a>
+								<span>/</span>
+								<a href="/logout">
+									<span>Logout</span>
+								</a>
+								<span>/</span>
+							</li>
+							<li>
+								<a href="#">
+									<span><i class="fas fa-shopping-cart"></i> 장바구니</span>
+								</a>
+								<span>/</span>
+							</li>
+							<li class="search-btn flex">
+								<input type="text" placeholder="검색">
+								<button type="submit"><i class="fas fa-search"></i></button>
+							</li>
+						</ol>
+					</div>
+				</div>
+				<ul class="header-menu flex between">
+					<div class="flex">
+						<li>
+							<a href="#">
+								<span>HEADSETS</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span>KEYBOARD</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span>MOUSE</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span>MOUSEPAD</span>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<span>ACC</span>
+							</a>
+						</li>
+						<li class="sub-drop">
+							<a href="/community/qna/list">
+								<span>COUMMUNITY</span>
+							</a>
+							<div>
+								<ol class="sub-menu flex column between">
+									<li>
+										<a href="/community/notice/list">
+											<span>Notice</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>FAQ</span>
+										</a>
+									</li>
+									<li>
+										<a href="/community/qna/list">
+											<span>Q&A</span>
+										</a>
+									</li>
+									<li>
+										<a href="/movie">
+											<span>Movie</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Online AS</span>
+										</a>
+									</li>
+									<li>
+										<a href="#">
+											<span>Review</span>
+										</a>
+									</li>
+								</ol>
+							</div>
+						</li>
+						<li>
+							<a href="#">
+								<span>BLOG</span>
+							</a>
+						</li>
+					</div>
+					<li class="store">
+						<a href="/store/refurbish/list" class="flex column center">	
+							<span><i class="fas fa-gift"></i> REFURBISH STORE</span>
+						</a>
+					</li>
+				
+				</ul>
+				
+			</section>
+		</div>
+	</header>
+	
+	<footer th:fragment="footer">
+		<h1>하단</h1>
+		<div>
+			<section id="footer">
+				<div class="wrap flex">
+					<div class="footer-qna flex between">
+						<ul class="left-info flex column center">
+							<li>Customer Center</li>
+							<li>02-713-6898</li>
+							<li>Mon-Fri. 10:00~17:00 (Lunch 12:00~13:00)</li>
+							<li>토,일요일 및 공휴일 휴무</li>
+							<li>
+								<p>고객센터 연결이 어려운 경우</p>
+								<p>Q&A 문의 게시판을 이용해 주시기 바랍니다.</p>
+							</li>
+						</ul>
+						<ul class="right-info flex column center">
+							<li>Bank</li>
+							<li>국민은행 097601-04-147995</li>
+							<li>주식회사이도컴퍼니티앤디</li>
+							<li>
+								<a href="#">Notice</a>
+							</li>
+							<li>
+								<a href="#">Q&A</a>
+							</li>
+							<li>
+								<a href="#">FAQ</a>
+							</li>
+						</ul>
+					</div>
+					<div class="footer-logo">
+						<div class="logo-img2"></div>
+					</div>
+				</div>
+				
+				<div class="footer-border">
+					<div class="footer-info flex between">
+						<div>
+							<span>(주)이도컴퍼니티앤디  l  대표자 : 전범준  l  </span>
+							<span>서울 영등포구 양평로 22길 21 (선유도코오롱디지털타워) 1302호  l  </span>
+							<span>Tel. 02-713-6898   Fax. 02-713-6897</span>
+							<p>
+								<span>호스팅제공자 (주)아임웹</span>
+								<span>사업자등록번호 211-88-25462  l  통신판매업신고 제 2014-서울영등포-0386 호</span>
+			
+							</p>
+						</div>
+						<div class="wrap">
+							<a href="#">
+								<span>Agreement</span>
+							</a>
+							<a href="#">
+								<span>Privacy</span>
+							</a>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</footer>
+</body>
+</html>
+
+
+
+

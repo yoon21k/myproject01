@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	<link rel="stylesheet" href="/css/community/qna/list.css">
+	
+	<script type="text/javascript">
+		var div = 0;
+		var pno = 1;
+		$(function(){
+			qnaList(div);
+			$("#qna-sub li").click(function(){
+				pno=1;
+				div = $(this).index();
+				qnaList(div);
+			});
+			
+		});
+		
+		function qnaList(division){
+			$.ajax({
+				url : "/community/qna/"+division,
+				data : {page:pno},
+				success : function(result){
+					$("#listdata").html(result);
+				}
+			});
+			/*
+			$.get("/community/qna/"+division,
+					function(result){
+						$("#listdata").html(result);
+					}
+			);
+			*/
+		}
+	</script>
+	
+</head>
+<body>
+	<th:block th:insert="/common/common::header"></th:block>
+	
+	<main>
+		<p>Q&A</p>
+		
+		<section th:fragment="header">
+			<h1>COMMUNITY</h1>
+			<div class="view-size">
+				<div th:fragment="header" class="community-menu">
+					
+					<!-- <ul class="flex">
+						<li><a href="/community/notice/list">Notice</a></li>
+						<li><a href="/community/faq/list">FAQ</a></li>
+						<li><a href="/community/qna/list">Q&A</a></li>
+						<li><a href="/community/event/list">Event</a></li>
+						<li><a href="/community/onlineas/list">Online AS</a></li>
+						<li><a href="/community/review/list">Review</a></li>
+					</ul> -->
+				</div>
+			</div>
+		</section>
+		
+		<div class="qna-menu view-size">
+			<ul id="qna-sub" class="flex">
+				<li>교환반품</li>
+				<li>주문결제</li>
+				<li>배송</li>
+				<li>기타</li>
+			</ul>
+			
+			<dl class="menu-title">
+				<dt class="flex">
+					<span>No</span>
+					<span>제목</span>
+					<span>글쓴이</span>
+					<span>작성시간</span>
+				</dt>
+			</dl>
+	
+			 
+			<div id="listdata">
+				<!-- listdata가 들어갈 영역 -->
+			</div>
+			
+			
+		</div>
+		
+		
+	</main>
+	
+	<th:block th:insert="/common/common::footer"></th:block>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	<link rel="stylesheet" href="/css/admin/common.css">
+</head>
+<body>
+
+	<main>
+		<h1>관리자 페이지</h1>
+		<div class="wrap flex">
+			
+			<th:block th:insert="/admin/common::menu"/>
+			
+			<section id="content">
+				<h1>내용</h1>
+				<div class="wrap">
+					<p>QNA 글쓰기 페이지</p>
+					<form action="/admin/qna/write" method="post">
+						<p>
+							<select name="division">
+								<option value="exchange">교환반품</option>
+								<option value="order">주문결제</option>
+								<option value="delivery">배송</option>
+								<option value="etc">기타</option>
+							</select>
+						</p>
+						<p>
+							<input type="text" name="subject">
+						</p>
+						<p>
+							<textarea rows="3" cols="30" name="content"></textarea>
+						</p>
+						<p>
+							<input type="hidden" name="writer" th:value="${#authentication.principal.name}">
+							<button type="submit">등록</button>
+						</p>
+					</form>
+				</div>
+			</section>
+		</div>
+	</main>
+	
+</body>
+</html>

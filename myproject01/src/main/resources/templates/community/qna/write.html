@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	<link rel="stylesheet" href="/css/community/qna/write.css">
+	
+</head>
+<body>
+	
+	<main>
+		<div class="title">
+			<p><a href="/community/qna/list">Q&A</a></p>
+		</div>
+		<div class="wrap">
+			<form action="/community/qna/write" method="post">
+				<div class="writer-info" sec:authorize="isAuthenticated()">
+					<i class="fas fa-user-circle"></i>
+					<span sec:authentication="principal.name"></span>
+				</div>
+				
+				<p class="question flex center">
+					<input class="subject" type="text" name="subject" placeholder="제목">
+				</p>
+				<p class="division flex">
+					<select name="division">
+						<option value="exchange">교환반품</option>
+						<option value="order">주문결제</option>
+						<option value="delivery">배송</option>
+						<option value="etc">기타</option>
+					</select>
+				</p>
+				<p class="flex center">
+					<textarea rows="40" cols="125" name="content"></textarea>
+				</p>
+				<p>
+					<input type="hidden" name="writer" th:value="${#authentication.principal.name}">
+				</p>
+				<p class="btn-write flex">
+					<a href="/community/qna/list">
+						<button class="btn-write-cancel" type="button">취소</button>
+					</a>
+					<button class="btn-write-save" type="submit">작성</button>
+				</p>
+			</form>
+		</div>
+	</main>
+
+</body>
+</html>
+
+
+
+
+

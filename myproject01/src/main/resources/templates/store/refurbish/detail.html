@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html 
+xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	<link rel="stylesheet" href="/css/store/refurbish/detail.css">
+	
+	<script type="text/javascript">
+		$(function(){
+			getReviewList();
+			
+			// detail-menu
+			$("ol li:first-child").addClass("clicked");
+			$("ol li").click(function(){
+				
+				$("ol li").removeClass("clicked");
+				$(this).addClass("clicked");
+			});
+			
+			// 리뷰 작성 영역 toggle
+			$("#review dd").hide();
+			$("#review dt .btn-review-write").click(function(){
+				var target=$(this).parent("dt").next();
+				$("#review dl dd").not(target).slideUp();
+				$(this).parent("dt").next().slideToggle();
+			});
+			
+			
+			// 파일(미리보기) 업로드
+			$("#file-input").change(function(){
+ 				var file=$("#file-input")[0].files[0];
+ 				var formData=new FormData();
+ 				formData.append("file", file);
+ 				
+ 				$.ajax({
+ 					url: "/store/refurbish/temp",
+ 					data: formData,
+ 					type: "post",
+ 					contentType: false,
+ 					processData: false,
+ 					success: function(result){
+ 						if(result==null){
+ 							alert("파일 용량 초과!")
+ 						}else{
+ 							$("#file-label").css("background-image", "url("+result+")");
+ 						}
+ 					}
+ 				});
+ 			});
+			
+		});
+	
+		// 해당 상품 리뷰 목록 가져오기
+		function getReviewList(){
+			var no=$(".detail-no").text();
+			$.ajax({
+				url: "/store/refurbish/"+no+"/review",
+				success: function(result){
+					$("#review-list").html(result);
+					
+				}
+			});
+		}
+		
+	</script>
+</head>
+<body>
+	<th:block th:insert="/common/common::header"></th:block>
+	
+	<main>
+		<h1>상품 상세 페이지</h1>
+		<div class="wrap">
+			<section id="product-detail">
+			 	<div class="wrap flex between">
+					<div class="img-area">
+						<!-- <img th:src="${dto.fileUrl + dto.fileName}" width="336px"> -->
+						<span class="product-img" th:style="|background-image: url('${detail.fileUrl + detail.fileName}');|"></span>
+					</div> 
+					<ul class="info-area">
+						<li class="product-info"> 
+							<div class="product-name">
+								<span>[<span class="refur">리퍼</span>]</span>
+								<span th:text="${detail.productName}">상품명</span>
+							</div>
+							<div class="product-price">
+								<span class="sale-price" th:text="${detail.salePrice}">할인가격</span>
+								<span class="price" th:text="${detail.price}">가격</span>
+							</div>
+							<div class="detail-no" th:text="${detail.no}" style="display : none;">no</div>
+						</li>
+						<li class="detail-info">
+							<div>
+								<span class="content">[(${detail.content})]</span>
+							</div>
+							<div>
+								<p><span>구매혜택</span> 스틸시리즈 공식스토어 런칭기념 적립 적립예정</p>
+							</div>
+							<div>
+								<p><span>배송 방법</span> 택배</p>
+							</div>
+							<div>
+								<p><span>배송비</span> 2,500원 ㅣ 도서산간 배송비 추가</p>
+							</div>
+							<div class="price-count">
+								<p>수량</p>
+								<div class="flex between">
+									<div class="count-box flex">
+										<a>-</a>
+										<input type="text" readonly="readonly" value="1">
+										<a>+</a>
+									</div>
+									<div>
+										<span class="sale-price" th:text="${detail.salePrice}">할인가격</span>
+									</div>
+								</div>
+							</div>
+							<div class="price-total flex between">
+								<p>총 상품금액</p>
+								<div>
+									<span class="sale-price" th:text="${detail.salePrice}">할인가격</span>
+								</div>
+							</div>
+							<div class="payment flex between">
+								<div class="btn-buy">
+									<a>구매하기</a>
+								</div>
+								<div class="btn-cart">
+									<a>장바구니</a>
+								</div>
+								<div class="btn-like">
+									<a><i class="far fa-heart"></i> 0</a>
+								</div>
+							</div>
+						</li>
+					</ul>
+			 	</div>
+			 	
+				<ol class="detail-menu flex center">
+					<li>
+						<span>상세정보</span>
+					</li>
+					<p>/</p>
+					<li>
+						<span>구매평</span>
+					</li>
+					<p>/</p>
+					<li>
+						<span>Q&A</span>
+					</li>
+				</ol>
+			</section>
+			
+			<section id="detail-img">
+			 	<div>
+			 		<div class="refur-img"></div>
+			 	</div>
+			 	<div>
+			 		<div class="info-img"></div>
+			 	</div>
+			</section>
+			
+			<section id="product-review">
+				<div class="wrap">
+					<p>구매평</p>
+					<dl id="review">
+						<dt sec:authorize="isAnonymous()">
+							<a href="/log/login">
+								<button class="btn-review-write">구매평 작성</button>
+							</a>
+						</dt>
+						<dt sec:authorize="isAuthenticated()">
+							<button class="btn-review-write">구매평 작성</button>
+						</dt>
+						<dd>
+							<form th:action="|/store/refurbish/${detail.no}/review|" method="post" enctype="multipart/form-data">
+								<div class="review-img">
+									<label id="file-label" for="file-input">+</label>
+									<input id="file-input" type="file" name="file">
+								</div>
+								<div class="review-input">
+									<textarea class="review" name="review" placeholder="어떤 점이 좋으셨나요?"></textarea>
+									<button class="btn-review-done" type="submit">등록</button>
+								</div>
+								<div sec:authorize="isAuthenticated()">
+									<input class="writer" type="hidden" name="writer" th:value="${#authentication.principal.name}">
+								</div>
+							</form>
+						</dd>
+					</dl>
+					
+					<div id="review-list">
+						<!-- 상품에 대한 리뷰  -->
+					</div>
+				</div>
+			</section>
+			
+		</div>
+	</main>
+	
+	<th:block th:insert="/common/common::footer"></th:block>
+</body>
+</html>

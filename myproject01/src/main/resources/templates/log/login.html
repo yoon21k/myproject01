@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	<link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+	<th:block th:insert="/common/common::header"></th:block>
+	
+	<main>
+		<h1>로그인</h1>
+		<div>
+			<section id="login">
+				<div class="wrap">
+					<div class="title">
+						<label>Login</label>
+					</div>
+					<div class="login-area">
+						<div>
+							<p class="welcome" th:if="${welcome}">[[${welcome}]]</p>
+							<p class="login-err" th:if="${loginErr}">[[${loginErr}]]</p>
+						</div>
+						<form action="/member/login" method="post">
+							<div class="idpw">
+								<div>
+									<input type="text" name="userId" placeholder="아이디">
+								</div>
+								<div>
+									<input type="password" name="pass" placeholder="비밀번호">
+								</div>
+							</div>
+							<div class="checkbox">
+								<input type="checkbox" checked="checked">
+								<span>로그인상태유지</span>
+							</div>
+							<div class="login-btn">
+								<button type="submit">로그인</button>
+							</div>
+						</form>
+						<div class="no-login flex between">
+							<a href="/log/join">
+								<span>회원가입</span>
+							</a>
+							<a href="#">
+								<span>아이디.비밀번호 찾기</span>
+							</a>
+						</div>
+						<div class="others">
+							<div class="line">
+								<div class="line-left"></div>
+								<p>또는</p>
+								<div class="line-right"></div>
+							</div>
+							
+							<div class="link">
+								<div class="naver">
+									<a href="#">네이버로 시작하기</a>
+								</div>
+								<div class="google">
+									<a href="/oauth2/authorization/google">Google로 시작하기</a>
+								</div>
+								<div class="facebook">
+									<a href="#">
+										<i class="fab fa-facebook"></i>
+										<span>facebook으로 시작하기</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</main>
+	
+	<th:block th:insert="/common/common::footer"></th:block>
+</body>
+</html>

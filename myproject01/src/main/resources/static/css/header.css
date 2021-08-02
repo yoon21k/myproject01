@@ -1,0 +1,194 @@
+@charset "UTF-8";
+
+#header{
+	/* min-width: 1920px; */
+	background-color: #000;
+}
+
+#header,
+#header a{
+	color: #fff;
+}
+
+#header> .wrap{
+	height: 40px;
+	background-color: #fc4c02;
+	line-height: 40px;
+}
+
+.header-logo{
+	width: 1603px;
+	margin: 0 auto;
+	height: 128px;
+	background-color: transparent;
+}
+
+.header-menu{
+	width: 1603px;
+	height: 55px;
+	margin: 0 auto;
+	background-color: transparent;
+	position: relative;
+}
+
+/* //////////////////////////////////////////////// */
+
+.header-menu .sub-drop:hover .sub-menu{
+	display: flex;
+}
+
+.header-menu .sub-menu{
+	width: 160px;
+	height: 246px;
+	background-color: #000;
+	position: absolute;
+	top: 48px;
+	display: none;
+}
+
+.header-menu .sub-menu li{
+	width: 100%;
+	height: 41px;
+	line-height: 41px;
+	font-size: 13px;
+	font-weight: 700;
+}
+
+.header-menu .sub-menu li a{
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+/* //////////////////////////////////////////////// */
+
+.header-logo .logo-area,
+.header-logo .login-area{
+	width: 50%;
+	padding: 40px 0;
+}
+
+.header-logo .login-area{
+	font-weight: 300;
+}
+
+.header-logo .logo-area p{
+	color: #fff;
+	font-size: 15px;
+	font-weight: 700;
+	height: 48px;
+	padding-top: 30px;
+}
+
+.header-logo .logo-area a{
+	height: 48px;
+}
+
+.header-logo .logo-area a .logo-img{
+	background-image: url("../images/mylogo1.svg");
+	background-size: inherit;
+	background-repeat: no-repeat;
+	display: block;
+	width: 230px;
+	height: 48px;
+	margin-left: 25px;
+}
+
+.header-logo .login-area ol{
+	justify-content: flex-end;
+	padding: 10px;
+}
+
+.header-logo .login-area ol li{
+	font-size: 14px;
+	height: 35px;
+	line-height: 35px;
+}
+
+.header-logo .login-area ol li a:hover span{
+	color: #fc4c02;
+}
+
+.header-logo .login-area ol li span{
+	margin: 0 5px;
+}
+
+.header-logo .login-area ol li.search-btn{
+	border-bottom: 1px solid #fff;
+	height: 35px;
+	margin-left: 10px;
+}
+
+.header-logo .login-area ol li.search-btn input{
+	width: 130px;
+	color: #fff;
+}
+
+.header-logo .login-area ol li.search-btn button{
+	background-color: transparent;
+	color: #fff;
+	cursor: pointer;
+}
+
+/* //////////////////////////////////////////////// */
+
+.header-menu li{
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 55px;
+}
+
+.header-menu div li{
+	padding: 0 25px;
+}
+
+.header-menu li a:hover span{
+	color: #fc4c02;
+}
+
+.header-menu li.store{
+	width: 173px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.header-menu li.store a{
+	width: 173px;
+	height: 35px;
+	border: 1px solid #fc4c02;
+	background-color: #fc4c02;
+	border-radius: 20px;
+	text-align: center;
+}
+
+.header-menu li.store a:hover {
+	background-color: transparent;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="/common/common::head"></th:block>
+	<link rel="stylesheet" href="/css/admin/common.css">
+</head>
+<body>
+	<!-- 관리자 페이지 좌측 메뉴 부분 -->
+	<nav id="menu" th:fragment="menu">
+		<h1>관리자 메뉴</h1>
+		<div class="wrap">
+			<p>
+				<a href="/">ProjectHome</a>
+			</p>
+			<ul class="menu-list">
+				<li>
+					<p><a href="#">QNA</a></p>
+					<ol>
+						<li><a href="/admin/qna/write">글쓰기</a></li>
+						<li><a href="/admin/qna/list">목록보기</a></li>
+					</ol>
+				</li>
+				
+				<li>
+					<p><a href="#">비주얼이미지</a></p>
+					<ol>
+						<li><a href="/admin/visual/write">등록</a></li>
+						<li><a href="/admin/visual/list">목록보기</a></li>
+					</ol>
+				</li>
+				
+				<li>
+					<p><a href="#">상품</a></p>
+					<ol>
+						<li><a href="/admin/product/upload">등록</a></li>
+						<li><a href="/admin/product">목록보기</a></li>
+					</ol>
+				</li>
+			</ul>
+		</div>
+	</nav>
+
+</body>
+</html>
